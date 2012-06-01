@@ -6,7 +6,7 @@ Author: Michael Pope
 =end
 
 require 'gtk2'
-
+SCRIPT_DIR = File.expand_path(File.dirname(__FILE__) + '/scripts')
 TV_CARDS = [
             "Hauppauge HVR-2200",
             "Leadtek DTV2000 DS"
@@ -22,7 +22,8 @@ def install(tv_card,distro)
   case tv_card.active_text 
   when "Hauppauge HVR-2200"
     puts "\tRunning Hauppauge script"
-    `gksudo xterm`
+    puts "#{SCRIPT_DIR}/hauppauge.rb"
+    `gksudo #{SCRIPT_DIR}/hauppauge.rb`
   when "Leadtek DTV2000 DS"
     puts "\tRunning Leadtek script"
 
@@ -73,10 +74,13 @@ btn_install.signal_connect("clicked"){
 Installing #{tv_card.active_text} on #{distro.active_text}
 
 You will be asked for your password as this program will need to install packages and copy firmware.
+
+Click close and please wait for the install to complete
 eos
 
   dialog(window, message)  
-  install(tv_card,distro)  
+  install(tv_card,distro)
+  dialog(window, "Complete, Please now reboot.")
 }
 
 # Create quit button with action on clicked event.
