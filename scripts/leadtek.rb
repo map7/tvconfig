@@ -1,21 +1,11 @@
 #!/usr/bin/env ruby
 
-CHANNELS_CONF = "/home/mythserver/.mythtv/channels.conf"
+require File.expand_path(File.dirname(__FILE__) + '/../lib/general.rb')
+include General
+
+CHANNELS_CONF = "#{ENV['HOME']}/.mythtv/channels.conf"
 LEADTEK_INIT = "/etc/init.d/leadtek"
 
-def install(pkg)
-	puts "Installing #{pkg}..."
-	`export DEBIAN_FRONTEND=noninteractive;apt-get install -y #{pkg}`
-end
-
-def check_line(file,search)
-	search_found = false
-	File.open(file).each_line do |f|
-		f.grep(%r{search}) do |line|
-			search_found = true;
-		end
-	end
-end
 
 puts "\nInstall required tools..."
 install("build-essential lirc")
