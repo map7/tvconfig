@@ -1,0 +1,4 @@
+* TV Config
+
+This project aims to install TV cards under Linux with a simple click of the button.
+

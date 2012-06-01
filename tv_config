@@ -1,0 +1,84 @@
+#!/usr/bin/ruby
+=begin
+tv_config - Configure TV cards under Linux
+
+Author: Michael Pope
+=end
+
+require 'gtk2'
+
+TV_CARDS = [
+            "Hauppauge HVR-2200",
+            "Leadtek DTV2000 DS"
+           ]
+
+DISTROS = [
+          "Mythbuntu 12.04"
+         ]
+
+def install(tv_card,distro)
+  puts "Installing #{tv_card.active_text} on #{distro.active_text}"
+
+  # Call individual scripts which configure the selected card.
+  case tv_card.active_text 
+  when "Hauppauge HVR-2200"
+    puts "\tRunning Hauppauge script"
+    
+  when "Leadtek DTV2000 DS"
+    puts "\tRunning Leadtek script"
+
+  end
+  
+end
+
+# Create a combo box with label and data
+def setup_combo(label, data)
+  combo = Gtk::ComboBox.new()
+  data.map{|d| combo.append_text(d)}
+  combo.set_active(0)
+  lbl = Gtk::Label.new(label, true)
+  lbl.mnemonic_widget = combo
+  box = Gtk::HBox.new(false,10)
+  box.pack_start(lbl, false)
+  box.pack_start(combo)
+  return box, combo
+end
+
+window = Gtk::Window.new("tv config")
+window.default_width = 300
+
+
+# When the window is closed end the program
+window.signal_connect("destroy"){ Gtk.main_quit}
+
+# Setup combo boxes
+tv_card_box, tv_card = setup_combo("_TV Card", TV_CARDS)  # TV Card selection
+distro_box, distro = setup_combo("_Distro", DISTROS)       # Distro Selection
+
+# Create install button and link it to the install method
+btn_install = Gtk::Button.new("Install")
+btn_install.signal_connect("clicked"){install(tv_card,distro)}
+
+# Create quit button with action on clicked event.
+btn_quit = Gtk::Button.new("Quit")
+btn_quit.signal_connect("clicked"){ Gtk.main_quit} 
+
+# Setup window size and add widgets
+window.border_width = 10
+
+# Create the button container
+btn_box = Gtk::HBox.new(false,10)  # Create a container
+[btn_install,btn_quit].map{|item| btn_box.pack_start(item)}
+
+# Create the overall vertical container
+v_box = Gtk::VBox.new(false,10)
+[tv_card_box, distro_box, btn_box].map{|item| v_box.pack_start(item)}
+
+window.add(v_box)
+
+# Show all
+window.show_all
+
+# Start program
+Gtk.main
+
