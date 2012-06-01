@@ -6,7 +6,7 @@ Author: Michael Pope
 =end
 
 require 'gtk2'
-
+SCRIPT_DIR = File.expand_path(File.dirname(__FILE__) + '/scripts')
 TV_CARDS = [
             "Hauppauge HVR-2200",
             "Leadtek DTV2000 DS"
@@ -17,13 +17,13 @@ DISTROS = [
          ]
 
 def install(tv_card,distro)
-  puts "Installing #{tv_card.active_text} on #{distro.active_text}"
 
   # Call individual scripts which configure the selected card.
   case tv_card.active_text 
   when "Hauppauge HVR-2200"
     puts "\tRunning Hauppauge script"
-    
+    puts "#{SCRIPT_DIR}/hauppauge.rb"
+    `gksudo #{SCRIPT_DIR}/hauppauge.rb`
   when "Leadtek DTV2000 DS"
     puts "\tRunning Leadtek script"
 
@@ -32,7 +32,7 @@ def install(tv_card,distro)
 end
 
 # Create a combo box with label and data
-def setup_combo(label, data)
+def combo(label, data)
   combo = Gtk::ComboBox.new()         
   data.map{|d| combo.append_text(d)}  # Add data to the combo box.
   combo.set_active(0)                 # Automatically select the first entry
@@ -44,6 +44,17 @@ def setup_combo(label, data)
   return box, combo
 end
 
+# Display Dialog box
+def dialog(window,message)
+  dialog = Gtk::MessageDialog.new(window, 
+                                  Gtk::Dialog::DESTROY_WITH_PARENT,
+                                  Gtk::MessageDialog::QUESTION,
+                                  Gtk::MessageDialog::BUTTONS_CLOSE,
+                                  message)
+  dialog.run
+  dialog.destroy
+end
+
 # Create a new window with title set to 'tv config' and width '300'
 window = Gtk::Window.new("tv config")
 window.default_width = 300
@@ -52,12 +63,25 @@ window.default_width = 300
 window.signal_connect("destroy"){ Gtk.main_quit}
 
 # Setup combo boxes
-tv_card_box, tv_card = setup_combo("_TV Card", TV_CARDS)  # TV Card selection
-distro_box, distro = setup_combo("_Distro", DISTROS)       # Distro Selection
+tv_card_box, tv_card = combo("_TV Card", TV_CARDS)  # TV Card selection
+distro_box, distro = combo("_Distro", DISTROS)       # Distro Selection
 
 # Create install button and link it to the install method
 btn_install = Gtk::Button.new("Install")
-btn_install.signal_connect("clicked"){install(tv_card,distro)}
+btn_install.signal_connect("clicked"){
+
+  message = <<-eos
+Installing #{tv_card.active_text} on #{distro.active_text}
+
+You will be asked for your password as this program will need to install packages and copy firmware.
+
+Click close and please wait for the install to complete
+eos
+
+  dialog(window, message)  
+  install(tv_card,distro)
+  dialog(window, "Complete, Please now reboot.")
+}
 
 # Create quit button with action on clicked event.
 btn_quit = Gtk::Button.new("Quit")
