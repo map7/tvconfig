@@ -25,11 +25,14 @@ module General
     if File.exists?(dest)
       puts "Destination file '#{dest}' already exists."
     else
+      # Download the file
       puts "Downloading #{url}"
       filename=open(url,
                     :progress_proc => lambda{|s|
                       print('.')
                     })
+
+      # If it's a stringIO create a file, otherwise move the file.
       if filename.class.to_s == "StringIO"
         File.open(dest,'w'){|f|
           filename.readlines.map{|line| f.write line}
@@ -37,7 +40,6 @@ module General
       else
         File.rename(filename.path,dest)        
       end
-      
 
       puts "\nMoved download to: #{dest}"
     end
