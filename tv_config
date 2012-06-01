@@ -33,20 +33,20 @@ end
 
 # Create a combo box with label and data
 def setup_combo(label, data)
-  combo = Gtk::ComboBox.new()
-  data.map{|d| combo.append_text(d)}
-  combo.set_active(0)
-  lbl = Gtk::Label.new(label, true)
-  lbl.mnemonic_widget = combo
-  box = Gtk::HBox.new(false,10)
-  box.pack_start(lbl, false)
-  box.pack_start(combo)
+  combo = Gtk::ComboBox.new()         
+  data.map{|d| combo.append_text(d)}  # Add data to the combo box.
+  combo.set_active(0)                 # Automatically select the first entry
+  lbl = Gtk::Label.new(label, true)   # Create a label
+  lbl.mnemonic_widget = combo         # Set 'alt' shortcut to select the combobox
+  box = Gtk::HBox.new(false,10)       # Create a layout
+  box.pack_start(lbl, false)          # Add label with no set size
+  box.pack_start(combo)               # Add combo with full width
   return box, combo
 end
 
+# Create a new window with title set to 'tv config' and width '300'
 window = Gtk::Window.new("tv config")
 window.default_width = 300
-
 
 # When the window is closed end the program
 window.signal_connect("destroy"){ Gtk.main_quit}
