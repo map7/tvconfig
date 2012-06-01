@@ -9,7 +9,9 @@ require 'gtk2'
 SCRIPT_DIR = File.expand_path(File.dirname(__FILE__) + '/scripts')
 TV_CARDS = [
             "Hauppauge HVR-2200",
-            "Leadtek DTV2000 DS"
+            "Leadtek DTV2000 DS",
+            "SiliconDust HD Homerun",
+            "Kaiser Baas Network TV Tuner"
            ]
 
 DISTROS = [
@@ -27,6 +29,9 @@ def install(tv_card,distro)
   when "Leadtek DTV2000 DS"
     puts "\tRunning Leadtek script"
 
+  when "Kaiser Baas Network TV Tuner", "SiliconDust HD Homerun"
+    puts "\tRunning HD Homerun script"
+    
   end
   
 end
