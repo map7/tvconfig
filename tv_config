@@ -1,0 +1,67 @@
+#!/usr/bin/ruby
+=begin
+tv_config - Configure TV cards under Linux
+
+Author: Michael Pope
+=end
+
+require 'gtk2'
+
+def install
+  puts "Installing..."
+end
+
+
+window = Gtk::Window.new("tv config")
+window.default_width = 300
+
+
+# When the window is closed end the program
+window.signal_connect("destroy"){ Gtk.main_quit}
+
+# TV Card selection
+tv_card = Gtk::ComboBox.new()
+lbl_tv_card = Gtk::Label.new("_TV Card", true)
+lbl_tv_card.mnemonic_widget = tv_card
+tv_card_box = Gtk::HBox.new(false,10)
+tv_card_box.pack_start(lbl_tv_card, false)
+tv_card_box.pack_start(tv_card)
+
+# Distro Selection
+distro = Gtk::ComboBox.new()
+lbl_distro = Gtk::Label.new("_Distro", true)
+lbl_distro.mnemonic_widget = distro
+distro_box = Gtk::HBox.new(false,10)
+distro_box.pack_start(lbl_distro, false)
+distro_box.pack_start(distro)
+
+# Create install button and link it to the install method
+btn_install = Gtk::Button.new("Install")
+btn_install.signal_connect("clicked"){install}
+
+# Create quit button
+btn_quit = Gtk::Button.new("Quit")
+btn_quit.signal_connect("clicked"){ Gtk.main_quit}
+
+# Setup window size and add widgets
+window.border_width = 10
+
+# Create the button container
+btn_box = Gtk::HBox.new(false,10)  # Create a container
+btn_box.pack_start(btn_install, true,true,0)
+btn_box.pack_start(btn_quit, true,true,0)
+
+# Create the overall vertical container
+v_box = Gtk::VBox.new(false,10)
+v_box.pack_start(tv_card_box)
+v_box.pack_start(distro_box)
+v_box.pack_end(btn_box, true, true, 0)
+
+window.add(v_box)
+
+# Show all
+window.show_all
+
+# Start program
+Gtk.main
+
