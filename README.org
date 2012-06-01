@@ -2,3 +2,16 @@
 
 This project aims to install TV cards under Linux with a simple click of the button.
 
+
+** Installing
+
+Run as root as this script has to install the dependencies 
+: sudo sh install.sh
+
+** Running
+
+: ./tv_config
+
+Select your TV card and Distro from the list.
+Click install.
+
