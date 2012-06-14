@@ -4,6 +4,8 @@ General - Methods which all install scripts require
 Author:  Michael Pope
 =end
 
+require 'open-uri'
+
 module General
   def install(pkg)
 	puts "Installing #{pkg}..."

@@ -1,14 +1,11 @@
 #!/usr/bin/env ruby
-=begin
-Hauppauge HVR-2200 dual tuner
-2 x USB tuners on a PCI-E board.
-
-=end
+#
+# Hauppauge HVR-2200 dual tuner
+# 2 x USB tuners on a PCI-E board.
+#
 
 require File.expand_path(File.dirname(__FILE__) + '/../lib/general.rb')
 include General
-
-require 'open-uri'
 
 install 'unzip'
 
