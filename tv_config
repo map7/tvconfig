@@ -26,14 +26,16 @@ def install(tv_card,distro)
     puts "\tRunning Hauppauge script"
     puts "#{SCRIPT_DIR}/hauppauge.rb"
     `gksudo #{SCRIPT_DIR}/hauppauge.rb`
+    
   when "Leadtek DTV2000 DS"
     puts "\tRunning Leadtek script"
+    `gksudo #{SCRIPT_DIR}/leadtek.rb`
 
   when "Kaiser Baas Network TV Tuner", "SiliconDust HD Homerun"
     puts "\tRunning HD Homerun script"
+    `gksudo #{SCRIPT_DIR}/hdhomerun.rb`    
     
-  end
-  
+  end  
 end
 
 # Create a combo box with label and data
