@@ -2,7 +2,10 @@
 =begin
 tv_config - Configure TV cards under Linux
 
-Author: Michael Pope
+Author:   Michael Pope
+Run:      ./tvconfig
+Requires: ruby-gnome2
+
 =end
 
 require 'gtk2'
