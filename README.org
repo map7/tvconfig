@@ -10,7 +10,7 @@ Run as root as this script has to install the dependencies
 
 ** Running
 
-: ./tv_config
+: ./tvconfig
 
 Select your TV card and Distro from the list.
 Click install.
